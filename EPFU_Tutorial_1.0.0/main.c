@@ -2,20 +2,32 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 int r, c;
 
+
+/*
+int name;
+int isTemple;
+int crossRoads;
+int bonus;
+int top;
+int right;
+int bottom;
+int down;
+}*/
 
 int** generate_board(int *x)
 {
     int  i, j;
-    
+
     r = (*x)*2 + 1;
     c = (*x)*2 + 1;
-    
+
     int **arr = (int **)malloc(r * sizeof(int *));
     for (i=0; i<r; i++)
         arr[i] = (int *)malloc(c * sizeof(int));
-    
+
     for (i = 0; i <  r; i++)
         for (j = 0; j < c; j++)
             arr[i][j] = 0;
@@ -51,8 +63,7 @@ void print_board (int **arr, int r, int c)
         for (j = 0; j < c; j++)
         {
             if (arr[i][j] > 3)
-                printf("P%d(%d,%d)%*s", arr[i][j]/10, i, j, 10-intlen(i)-intlen(j)-intlen(arr[i][j]/10)-4, "");
-            else
+
                 printf("%d(%d,%d)%*s", arr[i][j], i, j, 10-intlen(i)-intlen(j)-intlen(arr[i][j])-3, "");
         }
         printf("\n\n");
@@ -78,11 +89,17 @@ int  print_tiles()
     }else if(l==4){
         j--;
     }return l;
-    
+
+}
+
+void choose_the_place (int id, int **arr){
+ int x, y;
+ printf("Provide coordinates");
+ scanf("%d %d", &x, &y);
 }
 
 void put_tile(int l, int x, int y){
-    
+
     //if (arr[i][j] !=0){
     //  printf("This place is already taken");
     //}else{
@@ -94,20 +111,20 @@ void put_tile(int l, int x, int y){
     //arr[i][j]=3
     //}else if(l==4){
     //arr[i][j]=4
-    
+
     //}
-    
+
     //}
-    
-    
-    
-    
+
+
+
+
 }
 
 int main()
 {
-    int  z, number_of_players;
-    int number_of_tiles=13;
+    int  z, number_of_players, tile_id;
+    int number_of_tiles=5;
     printf("Enter the number of players:");
     scanf("%d",&number_of_players);
 //    printf("Size of the board:");
@@ -115,14 +132,14 @@ int main()
     int **arr;
 //    int **arr2;
     arr = generate_board(&number_of_tiles);
-    
+
     for(z=1 ; z < number_of_tiles ; number_of_tiles--)
     {
         print_board( arr, r, c );
-        print_tiles();
+        tile_id = print_tiles();
+        choose_the_place(tile_id, arr);
         int print_tiles_interaction;
     }
-    
+
     return 0;
 }
-
