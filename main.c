@@ -101,7 +101,7 @@ void choose_the_place (int id, int **arr){
 void put_tile(int l, int x, int y)
 {
     int i,j;
-    int arr[100][100];
+    int **arr;
     for(i=0;i<x;i++)
         for(j=0;j<0;j++)
     if (arr[i][j] !=0)
