@@ -2,50 +2,62 @@
 #include <stdlib.h>
 #include <time.h>
 
+struct board_point {
+    int id;
+    int rotation;
+};
 
-int r, c;
-
-
-
-int name;
-int isTemple;
-int crossRoads;
-int bonus;
-int top;
-int right;
-int bottom;
-int down;
+int columns;
+int rows;
+FILE *tile_file, *board_file;
+struct board_point **board;
 
 
-int** generate_board(int *x)
+
+struct board_point** generate_board(FILE *fpin)
 {
-    int  i, j;
-
-    r = (*x)*2 + 1;
-    c = (*x)*2 + 1;
-
-    int **arr = (int **)malloc(r * sizeof(int *));
-    for (i=0; i<r; i++)
-        arr[i] = (int *)malloc(c * sizeof(int));
-
-    for (i = 0; i <  r; i++)
-        for (j = 0; j < c; j++)
-            arr[i][j] = 0;
+    char c;
+    int end_of_row = 0;
+    columns = 1;
+    rows = 0;
+    while((c=fgetc(fpin))!=EOF) {
+        
+//        printf("%c", c);
+        
+        if ((c == ',')&&!end_of_row) columns++;
+        else if (c == '\n') {
+            rows++;
+            end_of_row = 1;
+        }
+    }
+    
+    int i,j;
+    
+    struct board_point **arr = (struct board_point **)malloc(rows * sizeof(struct board_point *));
+    for (i=0; i < rows; i++)
+        arr[i] = (struct board_point *)malloc(columns * sizeof(struct board_point));
+    
+    for (i = 0; i <  rows; i++) {
+        for (j = 0; j < columns; j++) {
+            arr[i][j].id = 0;
+        }
+    }
+    
     return arr;
 }
 
-int** generate_auxiliary_board( int r, int c )
-{
-    int  x, y;
-   int **arr = (int **)malloc(r * sizeof(int *));
-   for (x=0; x<r; x++)
-        arr[x] = (int *)malloc(c * sizeof(int));
-
-    for (x = 0; x <  r; x++)
-        for (y = 0; y < c; y++)
-           arr[x][y] = 0;
-    return arr;
-}
+//int** generate_auxiliary_board( int r, int c )
+//{
+//    int  x, y;
+//    int **arr = (int **)malloc(r * sizeof(int *));
+//    for (x=0; x<r; x++)
+//        arr[x] = (int *)malloc(c * sizeof(int));
+//
+//    for (x = 0; x <  r; x++)
+//        for (y = 0; y < c; y++)
+//            arr[x][y] = 0;
+//    return arr;
+//}
 
 int intlen(int x){
     int n = 1;
@@ -54,17 +66,23 @@ int intlen(int x){
     return n;
 }
 
-void print_board (int **arr, int r, int c)
+void print_board (FILE *fpin)
 {
-    int i,j;
-    for (i = 0; i <  r; i++)
+    board = generate_board(fpin);
+    
+    
+    
+    int i, j;
+    for (i = 0; i <  rows; i++)
     {
         if (i%2!=0)     printf("%*s", 5, "");
-        for (j = 0; j < c; j++)
+        for (j = 0; j < columns; j++)
         {
-            if (arr[i][j] > 3)
-
-                printf("%d(%d,%d)%*s", arr[i][j], i, j, 10-intlen(i)-intlen(j)-intlen(arr[i][j])-3, "");
+            
+            if (board[i][j].id > 3)
+                printf("P%d(%d,%d)%*s", board[i][j].id/10, i, j, 10-intlen(i)-intlen(j)-intlen(board[i][j].id/10)-4, "");
+            else
+                printf("%d(%d,%d)%*s", board[i][j].id, i, j, 10-intlen(i)-intlen(j)-intlen(board[i][j].id)-3, "");
         }
         printf("\n\n");
     }
@@ -89,53 +107,51 @@ int  print_tiles()
     }else if(l==4){
         j--;
     }return l;
-
+    
 }
 
-void choose_the_place (int id, int **arr){
- int x, y;
- printf("Provide coordinates");
- scanf("%d %d", &x, &y);
-}
-
-void put_tile(int l, int x, int y)
-{
-    int i,j;
-    int **arr;
-    for(i=0;i<x;i++)
-        for(j=0;j<0;j++)
-    if (arr[i][j] !=0)
-        printf("This place is already taken");
-    else if(l==1)
-        arr[i][j]=1;
-   else if(l==2)
-    arr[i][j]=2;
-    else if(l==3)
-        arr[i][j]=3;
-    else if(l==4)
-        arr[i][j]=4;
-
+void put_tile(int l, int x, int y){
+    
+    //if (arr[i][j] !=0){
+    //  printf("This place is already taken");
+    //}else{
+    //if(l==1){
+    // arr[i][j]=1
+    //}else if(l==2){
+    //arr[i][j]=2
+    //}else if(l==3){
+    //arr[i][j]=3
+    //}else if(l==4){
+    //arr[i][j]=4
+    
+    //}
+    
+    //}
+    
+    
+    
+    
 }
 
 int main()
 {
-    int  z, number_of_players, tile_id;
-    int number_of_tiles=5;
-    printf("Enter the number of players:");
-    scanf("%d",&number_of_players);
-//    printf("Size of the board:");
-//    scanf("%d %d", &r, &c);
-    int **arr;
-//    int **arr2;
-    arr = generate_board(&number_of_tiles);
-
+    int  z, number_of_players;
+    int number_of_tiles=13;
+//    printf("Enter the number of players:");
+//    scanf("%d",&number_of_players);
+ 
     for(z=1 ; z < number_of_tiles ; number_of_tiles--)
     {
-        print_board( arr, r, c );
-        tile_id = print_tiles();
-        choose_the_place(tile_id, arr);
-        int print_tiles_interaction;
+        tile_file = fopen("tile.txt", "r");
+        board_file = fopen("tmp.txt", "r");
+        
+        if (board_file == NULL) return 1;
+        print_board(board_file);
+        print_tiles();
+        fclose(tile_file);
+        fclose(board_file);
     }
-
+    
     return 0;
 }
+
