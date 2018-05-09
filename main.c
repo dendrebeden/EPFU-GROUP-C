@@ -6,7 +6,7 @@
 int r, c;
 
 
-/*
+
 int name;
 int isTemple;
 int crossRoads;
@@ -15,7 +15,7 @@ int top;
 int right;
 int bottom;
 int down;
-}*/
+
 
 int** generate_board(int *x)
 {
@@ -34,18 +34,18 @@ int** generate_board(int *x)
     return arr;
 }
 
-//int** generate_auxiliary_board( int r, int c )
-//{
-//    int  x, y;
-//    int **arr = (int **)malloc(r * sizeof(int *));
-//    for (x=0; x<r; x++)
-//        arr[x] = (int *)malloc(c * sizeof(int));
-//
-//    for (x = 0; x <  r; x++)
-//        for (y = 0; y < c; y++)
-//            arr[x][y] = 0;
-//    return arr;
-//}
+int** generate_auxiliary_board( int r, int c )
+{
+    int  x, y;
+   int **arr = (int **)malloc(r * sizeof(int *));
+   for (x=0; x<r; x++)
+        arr[x] = (int *)malloc(c * sizeof(int));
+
+    for (x = 0; x <  r; x++)
+        for (y = 0; y < c; y++)
+           arr[x][y] = 0;
+    return arr;
+}
 
 int intlen(int x){
     int n = 1;
@@ -98,26 +98,22 @@ void choose_the_place (int id, int **arr){
  scanf("%d %d", &x, &y);
 }
 
-void put_tile(int l, int x, int y){
-
-    //if (arr[i][j] !=0){
-    //  printf("This place is already taken");
-    //}else{
-    //if(l==1){
-    // arr[i][j]=1
-    //}else if(l==2){
-    //arr[i][j]=2
-    //}else if(l==3){
-    //arr[i][j]=3
-    //}else if(l==4){
-    //arr[i][j]=4
-
-    //}
-
-    //}
-
-
-
+void put_tile(int l, int x, int y)
+{
+    int i,j;
+    int arr[100][100];
+    for(i=0;i<x;i++)
+        for(j=0;j<0;j++)
+    if (arr[i][j] !=0)
+        printf("This place is already taken");
+    else if(l==1)
+        arr[i][j]=1;
+   else if(l==2)
+    arr[i][j]=2;
+    else if(l==3)
+        arr[i][j]=3;
+    else if(l==4)
+        arr[i][j]=4;
 
 }
 
