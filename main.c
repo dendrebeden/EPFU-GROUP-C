@@ -1,28 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
-struct board_point {
+typedef struct {
     int id;
     int rotation;
-};
+} board_point;
 
-int columns;
-int rows;
+int columns, rows, i, j;
+char c;
 FILE *tile_file, *board_file;
-struct board_point **board;
+board_point **board;
 
 
 
-struct board_point** generate_board(FILE *fpin)
+void board_writting (board_point **board) {
+    board_file = fopen("board.txt", "w");
+    
+    for (i = 0; i <  rows; i++) {
+        for (j = 0; j < columns; j++) {
+            if (board[i][j].id != 0) {
+                fprintf(board_file, "%d", board[i][j].id);
+                putc('_', board_file);
+                fprintf(board_file, "%d", board[i][j].rotation);
+            }
+            if (j != (columns - 1))putc(',', board_file);
+        }
+        putc('\n', board_file);
+    }
+    
+    fclose(board_file);
+}
+
+board_point** generate_board(FILE *fpin)
 {
-    char c;
     int end_of_row = 0;
     columns = 1;
     rows = 0;
+    
+///////////////rows and columns counting//////////////////
     while((c=fgetc(fpin))!=EOF) {
-        
-//        printf("%c", c);
         
         if ((c == ',')&&!end_of_row) columns++;
         else if (c == '\n') {
@@ -30,19 +48,39 @@ struct board_point** generate_board(FILE *fpin)
             end_of_row = 1;
         }
     }
+
+///////////////memory allocation//////////////////
+    board_point **arr = (board_point **)malloc(rows * sizeof(board_point *));
+    for (i=0; i < rows; i++){
+        arr[i] = (board_point *)malloc(columns * sizeof(board_point));
+    }
     
-    int i,j;
-    
-    struct board_point **arr = (struct board_point **)malloc(rows * sizeof(struct board_point *));
-    for (i=0; i < rows; i++)
-        arr[i] = (struct board_point *)malloc(columns * sizeof(struct board_point));
-    
+///////////////setting initial values//////////////////
     for (i = 0; i <  rows; i++) {
         for (j = 0; j < columns; j++) {
-            arr[i][j].id = 0;
+            arr[i][j].id = 1;
+            arr[i][j].rotation = 1;
+        }
+    }
+
+///////////////reading board from a file (board.txt)//////////////////
+    fpin = fopen("board.txt", "r");
+
+    for (i = 0; i < rows; i++) {
+        j = 0;
+        while((c = fgetc(fpin)) != '\n') {
+            if (c != ',') {
+                arr[i][j].id = atoi(&c);
+                c = fgetc(fpin);
+                c = fgetc(fpin);
+                arr[i][j].rotation = atoi(&c);
+            } else {
+                j++;
+            }
         }
     }
     
+    fclose(fpin);
     return arr;
 }
 
@@ -69,8 +107,6 @@ int intlen(int x){
 void print_board (FILE *fpin)
 {
     board = generate_board(fpin);
-    
-    
     
     int i, j;
     for (i = 0; i <  rows; i++)
@@ -108,6 +144,8 @@ int  print_tiles()
         j--;
     }return l;
     
+    
+    
 }
 
 void put_tile(int l, int x, int y){
@@ -143,11 +181,13 @@ int main()
     for(z=1 ; z < number_of_tiles ; number_of_tiles--)
     {
         tile_file = fopen("tile.txt", "r");
-        board_file = fopen("tmp.txt", "r");
+        board_file = fopen("board.txt", "r");
         
-        if (board_file == NULL) return 1;
+        
         print_board(board_file);
         print_tiles();
+        board_writting(board);
+        
         fclose(tile_file);
         fclose(board_file);
     }
