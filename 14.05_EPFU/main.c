@@ -33,8 +33,8 @@ int main()
    // arr = generate_board(&number_of_tiles);
    	//system ("CLS");
 
-   //for(z=1 ; z < number_of_tiles ; number_of_tiles--)                          //For interactive mode we dont need boardfile interaction, only once we need
-   // {                                                                          //available_tiles.txt and tiles.txt interaction to load the tiles.
+   for(z=1 ; z < number_of_tiles ; number_of_tiles--)                          //For interactive mode we dont need boardfile interaction, only once we need
+    {                                                                          //available_tiles.txt and tiles.txt interaction to load the tiles.
         //tile_file = fopen("available_tiles.txt", "r");
         board_file = fopen("board.txt", "r");
         //int x;
@@ -46,7 +46,7 @@ int main()
 
         //fclose(tile_file);
         fclose(board_file);
-    //}
+    }
 
     return 0;
 }
