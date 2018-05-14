@@ -37,11 +37,11 @@ int main()
    // {                                                                          //available_tiles.txt and tiles.txt interaction to load the tiles.
         //tile_file = fopen("available_tiles.txt", "r");
         board_file = fopen("board.txt", "r");
-        int x;
+        //int x;
 
 
         print_board(board_file);
-        scanf("%d",x);
+        //scanf("%d",x);
         board_writting(board);
 
         //fclose(tile_file);
