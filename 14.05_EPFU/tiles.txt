@@ -1,0 +1,14 @@
+1,'Temple with 1 road',1,0,0,0,0,1,0;
+2,'Temple standalone',1,0,0,0,0,0,0;
+3,'City',0,0,1,2,2,2,2;
+4,'Road near a city',0,0,0,1,2,1,0;
+5,'City walls',0,0,1,2,0,0,0;
+6,'2 cities perpendicular',0,0,0,0,2,0,2;
+7,'2 cities angle',0,0,0,0,2,2,0;
+8,'curve near a city',0,0,0,2,1,1,0;
+9,'curve near a city',0,0,0,2,0,1,1;
+10,'Crossroads near a city',0,1,0,2,1,1,1;
+11,'Road',0,0,1,1,0,1,0;
+12,'Curve',0,0,1,0,0,1,1;
+13,'3-crossroads',0,1,1,0,1,1,1;
+14,'4-crossroads',0,1,0,1,1,1,1;
